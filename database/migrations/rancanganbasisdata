@@ -1,0 +1,42 @@
+barang
+    sapu
+    meja
+    kamera
+    laptop
+    infokus
+    spidol
+    bangku
+    ac
+
+
+/*
+**
+**untuk tabel jenis yang akan di hubungkan ketabel barang - atau lebih singkatnya menentukan jenis barang
+**
+**
+*/
+TKI    
+    multimedia
+    jaringan
+    Perangkat Keras
+
+(MESIN) =====> masuk daftar kemungkinan
+
+
+UMUM
+    Kebersihan
+    Olahraga
+    Ekstrakullikuler
+    Kelas
+
+
+
+
+
+// Ruangan 
+
+    Aula
+    Gedung TKI
+    Lab RPL, TKI, Bahasa Inggris, TJK, multimedia, Animasi, Studio
+    Ruang Guru
+    Gudang Olahraga
