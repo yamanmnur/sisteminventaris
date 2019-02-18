@@ -13,4 +13,7 @@ class ContohController extends Controller
             'model' => $data
         ]);
     }
+    public function contoh(){
+        return view('contoh');
+    }
 }

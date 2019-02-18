@@ -63,11 +63,13 @@
             }
         </style>
     </head>
-    <body>
+    <body><!--
         <div id="app">
             <jenis-component></jenis-component>
         </div>
-         
+    -->
+
+
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
@@ -85,25 +87,23 @@
 
             <div class="content" >
                 <div class="title m-b-md">
-                    @{{ message }}
+                    Sistem Inventarisir SMKN 2 Bandung
+                    <!--@{{ message }}-->
                 </div>
 
                 <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    <a href="https://laravel.com/docs">Operator</a>
+                    <a href="{{ route('login') }}">User(Siswa-guru-caraka)</a>
+                    <a href="https://laravel-news.com">Admin</a>
+                    
                 </div>
             </div>
-        </div>
+        </div><!--
         <div id="nama">
             <h1 v-text="namaanda"></h1>
             <h2 >@{{ angka }}</h2>
             <button v-on:click="tambahdata" class="btn btn-primary">tambah</button>
-        </div>
+        </div> -->
     <script src="{{asset('js/app.js')}}"></script>
         <script>
         var app = new Vue({

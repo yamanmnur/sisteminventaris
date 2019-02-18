@@ -1,6 +1,6 @@
 
-<!DOCTYPE html>
-<html>
+
+<html lang="en">
 
 <head>
   <meta charset="utf-8">
@@ -11,13 +11,17 @@
   <!-- Favicon -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
   <!-- Icons -->
+  
   <link href="{{ asset('assets/vendor/nucleo/css/nucleo.css') }}" rel="stylesheet">
   <link href="{{ asset('assets/vendor/@fortawesome/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
   <!-- Argon CSS -->
   <link type="text/css" href="{{ asset('assets/css/argon.min.css?v=1.0.0') }}" rel="stylesheet">
+<meta name="csrf-token" content="{{ csrf_token() }}" >
 </head>
 <body>
     <!-- Sidenav -->
+  <div id="app">
+
     <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
       <div class="container-fluid">
         <!-- Toggler -->
@@ -134,21 +138,25 @@
           <!-- Navigation -->
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <router-link class="nav-link" to="/home">
                 <i class="ni ni-tv-2 text-primary"></i>Home
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <router-link class="nav-link" to="/home/riwayatpeminjaman">
                 <i class="ni ni-tv-2 text-primary"></i> Riwayat Peminjaman
-              </a>
+              </router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <router-link class="nav-link" to="/home/pesan">
                 <i class="ni ni-tv-2 text-primary"></i> Pesan
-              </a>
+              </router-link>
             </li>
-             >
+            <li class="nav-item">
+                <router-link class="nav-link" to="/home/profileuser">
+                    <i class="ni ni-tv-2 text-primary"></i> Profile
+                </router-link>
+            </li>
             
             
            
@@ -176,7 +184,7 @@
       <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
         <div class="container-fluid">
           <!-- Brand -->
-          <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="#"">@yield('judulhalaman')</a>
+          <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="#">@yield('judulhalaman')</a>
           <!-- Form -->
            
           <!-- User -->
@@ -250,16 +258,18 @@
         @yield('content')
       <!-- End Page content -->
     </div>
- 
+  </div>
+
 </body>
-    <script src="{{ asset('assets/vendor/jquery/dist/jquery.min.js') }}"></script>
-<script src="{{ asset('assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
-<!-- Optional JS -->
+<script src="{{ asset('assets/vendor/jquery/dist/jquery.min.js') }}"></script>
+
+ <!-- Optional JS -->
 <script src="{{ asset('assets/vendor/chart.js/dist/Chart.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/chart.js/dist/Chart.extension.js') }}"></script>
 <!-- Argon JS -->
 <script src="{{ asset('assets/js/argon.min.js?v=1.0.0') }}"></script>
-@guest
+<script src="{{asset('js/app.js')}}"></script>
+ 
 <script>$(function(){
     $('#boraks').trigger('click'); // alternatively $('selector').click();
 });
@@ -268,8 +278,6 @@ $('#login-modal').on('click', function(event) {
     var url = '/login';
     location.replace(url);
 });</script>
-@else
-
-@endguest
+ 
 
 </html>
