@@ -19,8 +19,14 @@ Auth::routes();
 Route::get('/contohrouter','ContohController@contoh');
 Route::get('/api/jenis','ContohController@jenis')->name('api.jenis');
 Route::post('/api/tambahPeminjaman','HomeController@tambahPeminjaman');
-Route::get('/api/inventaris','HomeController@getAllInventaris')->name('api.inventaris');
+Route::get('/api/inventaris','HomeController@getAllInventaris')->name('semua.api.inventaris');
+Route::get('/api/inventaris/{search}','HomeController@getAllInventaris')->name('api.inventaris');
 Route::get('/api/peminjamanuser','HomeController@getAllPeminjamanUser')->name('api.peminjamanuser');
+Route::get('/api/operator/peminjamanuser/{search}','OperatorController@getAllPeminjamanUser')->name('operator.api.peminjamanuser');
+Route::get('/api/operator/peminjamanuser','OperatorController@getAllPeminjamanUser')->name('semua.operator.api.peminjamanuser');
+
+Route::get('/api/detailpinjam/{items}','HomeController@getDetailPeminjamanUser');
+Route::get('/api/operator/detailpinjam/{items}','OperatorController@getDetailPeminjamanUser');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::prefix('/home')->group(function(){
     Route::get('{path}','HomeController@index')->where('path','([A-z\d-\/_.]+)?');
@@ -31,9 +37,11 @@ Route::prefix('/operator')->group(function(){
     Route::post('/login','Auth\OperatorLoginController@login')->name('operator.login.submit');
     Route::get('/','OperatorController@index')->name('operator.dashboard');
     Route::get('/logout','Auth\OperatorLoginController@adminLogout')->name('operator.logout');
-
-   
-
+    Route::get('/api/allpeminjam/{query}','OperatorController@listPeminjam');
+    Route::get('/api/allpeminjam','OperatorController@listPeminjam');
+    Route::post('/setujuipeminjaman','OperatorController@setujuipeminjaman');
+    Route::post('/api/operator/kembalikanbarang','OperatorController@kembalikanBarang');
+    Route::get('{path}','OperatorController@index')->where('path','([A-z\d-\/_.]+)?');
 
 });
 Route::get('/hapusadmin','hapusAdminController@hapusAdmin');

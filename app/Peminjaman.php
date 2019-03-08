@@ -29,7 +29,8 @@ class Peminjaman extends Model
     public $timestamps = false;
     protected $primaryKey = 'id_peminjaman';
     protected $fillable = [
-        'status_peminjaman','kode_user','tanggal_pinjam','tanggal_kembali','deleted_at'
+        'status_pinjam','status_peminjaman','kode_user','tanggal_pinjam','tanggal_kembali','deleted_at',
+        'kode_operator','kode_peminjaman'
         //,'foto','alamat'
     ];
 

@@ -2,9 +2,9 @@
     <div>
 
     <h2  >
-        {{ nama }}
+       
     </h2>
-    <h1>hai orang asing {{ $route.params.id_peminjaman }}</h1>
+    <h1>barang barang yang anda pinjam pada tanggal   </h1>
     <div class="card shadow">
             <div class="card-header border-0">
               <div class="row align-items-center">
@@ -22,19 +22,22 @@
                 <thead class="thead-light">
                   <tr>
                     <th scope="col">Nama Barang</th>
-                    <th scope="col">Jumlah Yang Tersedia</th>
-                    <th scope="col">Kondisi</th>
+                    <th scope="col">Jumlah Yang Dipinjam</th>
+                    <th scope="col">Tanggal Di pinjam</th>
                     <th scope="col" colspan="2">Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
       
-                  <tr v-for="item in model.data">
+                  <tr v-for="item in model">
                     <th scope="row">
+                      {{ item.nama }}
                      </th>
                     <td>
+                      {{ item.jumlah }}
                      </td>
                     <td>
+                      {{ item.tanggal_pinjam }}
                      </td>
                     <td>
                       </td> 
@@ -49,6 +52,9 @@
     </div>
 </template>
 <script>
+      import axios from 'axios'
+      window.Vue = require('vue');
+
 export default {
              //  getDetailPeminjamanUser
       data(){        
@@ -59,12 +65,11 @@ export default {
       },
          mounted(){
             this.nama = this.$route.params.id_peminjaman;   
-          axios.get('/api/detailpinjam',   this.$route.params.id_peminjaman)
-          .then(function (resp){
-              Vue.set(vm.$data,'model',response.data.model)
-           }).catch(function (resp){
-             
-          });
+           var vm = this
+        axios.get('http://localhost:8000/api/detailpinjam/'+this.$route.params.id_peminjaman)
+        .then(function (response){
+          Vue.set(vm.$data,'model',response.data.model)
+        })
       }
 }
 </script>

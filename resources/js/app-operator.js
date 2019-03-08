@@ -6,7 +6,6 @@
  */
 
 require('./bootstrap');
-import detailpeminjamanoperator from './components/Operator/DetailPeminjaman.vue';
 import vuerouter from 'vue-router';
 import profileuser from './components/ProfileUser.vue';
 import contoh from './components/Contoh.vue';
@@ -15,9 +14,6 @@ import dashboard from './components/Dashboard.vue';
 import riwayatpeminjaman from './components/RiwayatPeminjaman.vue';
 import pesancomponent from './components/PesanComponent.vue';
 import detailpeminjaman from './components/DetailPeminjaman.vue';
-import operatordashboard from './components/Operator/Dashboard.vue';
-import pesanop from './components/Operator/PesanOp.vue';
-import profileop from "./components/Operator/ProfileOperator.vue";
 import VueSweetalert2 from 'vue-sweetalert2';
 window.Vue = require('vue');
 
@@ -85,59 +81,19 @@ const routes = [
         path : '/home/detailpinjam/:id_peminjaman',
         component : detailpeminjaman,
         props : true
-    },
-    {
-        name : 'dashboard',
-        path : '/operator',
-        component : operatordashboard,
-        props : true
-    },
-    {
-        name : 'detailpeminjamanoperator',
-        path : '/operator/detailpeminjamanuser/:id_peminjaman',
-        component : detailpeminjamanoperator,
-        props : true
-    },{
-        name : 'profileop',
-        path : '/operator/profilee/:profile',
-        component : profileop,
-        props : true
     }
-    ,{
-        name : 'pesanop',
-        path : '/operator/pesanop',
-        component : pesanop,
-        props : true
-    }
-    
 
-];
-
-// const routesoperator = [
-//     {
-//         name : 'dashboard',
-//         path : '/operator',
-//         component : operatordashboard,
-//         props : true
-//     }
-// ]
-
+]
  
 const router = new VueRouter({
     mode: 'history',
     routes
 })
-// const routeroperator = new VueRouter({
-//     mode: 'history',
-//     routesoperator
-// })
 
-
+ 
 const app = new Vue({
    // el : "#app",
     router
 }).$mount("#app");
  
-// const operator = new Vue({
-//     routeroperator
-// }).$mount("#operatorapp");
+ 

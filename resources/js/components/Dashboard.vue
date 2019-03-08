@@ -5,8 +5,10 @@
             <button class="btn btn-success" data-toggle="modal" data-target="#cartModal">Barang Yang Anda Pinjam {{cartItems.length}}</button>
               
              
-            
-             
+            <br>
+            <br>
+                           <input @keyup="ambilData" class="form-control" placeholder="Search" type="text" v-model="search">
+
               <!--<router-link to="/home/contoh" class="btn btn-success" data-toggle="modal" data-target="#detailmodal">lihat</router-link>-->
 
               <router-view   ></router-view>
@@ -40,7 +42,7 @@
                                   </tr>
                                    <tr v-show="items.length > 0">
                                        <button @click="tambahKeDatabase()" class="btn btn-primary">pinjam</button>
-                                       <button   @click="hapuSemua()" class="btn btn-primary">hapussemua</button>
+                                        <button   @click="hapuSemua()" class="btn btn-primary">hapussemua</button>
                                   </tr>
                                </table>
                             </div>
@@ -107,7 +109,7 @@
             </div>
             <div class="table-responsive">
               <!-- Projects table -->
-              <table class="table align-items-center table-flush">
+              <table class="table align-items-center ">
                 <thead class="thead-light">
                   <tr>
                     <th scope="col">Nama Barang</th>
@@ -146,104 +148,119 @@
     </template>
 
     <script>
-      import axios from 'axios'
+      import axios from 'axios';
+      import VueSweetalert2 from 'vue-sweetalert2';
       window.Vue = require('vue');
+      Vue.use(VueSweetalert2);
+      Vue.component('shopping-cart',  {
+        props: ['items'],
 
-    Vue.component('shopping-cart', {
-      props: ['items'],
-
-      computed: {
+        computed: {
                  
-      },
-
-      methods: {
-        hapuSemua(){
-          this.items.splice(this.items[0], 1)
-          this.items.splice(this.items[1], 1)
-        }
-        ,
-        removeItem(item) {
-          this.items.splice(item, )
-          //this.items.splice(item, )
-          //this.items.splice(index, 1)
-                                                  
-
         },
-         
-        tambahKeDatabase(event){
-          axios.post('/api/tambahPeminjaman',  {items : this.items})
-          .then(function (resp){
-            alert('berhasil meminjam')
-           }).catch(function (resp){
-            alert('gagal meminjam')
 
-          });
-          //this.items.splice(this.items)           
+        methods: {
+          hapuSemua(){
+            this.items.splice(this.items[0], 1)
+            this.items.splice(this.items[1], 1)
+          },
+          removeItem(item) {
+            this.items.splice(item, )
+            //this.items.splice(item, )
+            //this.items.splice(index, 1)
+          },
+          
+          tambahKeDatabase(event){
+            var vm = this
+
+            axios.post('/api/tambahPeminjaman',  {items : this.items})
+            .then(function (resp){
+              vm.$swal('barang berhasil dipinjam')
+              vm.$router.push('/home/riwayatpeminjaman');
+              $('#cartModal').modal('hide')
+              // vm.$("#detailmodal").modal('');
+              //alert('berhasil')
+            }).catch(function (resp){
+                swal('hai')
+            });
+          }
         }
-      }
-    });
-    Vue.component('detail-barang', {
-      props: ['items'],
+      });
 
-      computed: {
-                 
-      },
+      Vue.component('detail-barang', {
+        props: ['items'],
 
-      methods: {
-        
-      }
-    });
-    export default {
-                
-      data(){        
-        return {
-          iii : [],
-          cartItems : [],
-          detailbarangs: [],
-          items : {}
+        computed: {
+                  
+        },
+
+        methods: {
+          
         }
-      },
-      mounted(){
-                     
-        var vm = this
-        axios.get('http://localhost:8000/api/inventaris')
-        .then(function (response){
-          Vue.set(vm.$data,'items',response.data.items)
-        })
-      },
-      methods: {
-        hapusSemua(){
-          alert('sdf')
+      });
+      export default {
+                  
+        data(){        
+          return {
+            search : '',
+            iii : [],
+            cartItems : [],
+            detailbarangs: [],
+            items : {}
+          }
         },
-        detailbarang(items){
-         this.detailbarangs.splice(this.detailbarangs[0],1);
-          this.detailbarangs.push(items);
-          $("#detailmodal").modal('show');
+        mounted(){
+                      
+          var vm = this
+          axios.get('http://localhost:8000/api/inventaris/'+this.search)
+          .then(function (response){
+            Vue.set(vm.$data,'items',response.data.items)
+            vm.$swal('data berhasil di load')
+          })
         },
-            addToCart(itemToAdd) {
-              var found = false;
-                        // Check if the item was already added to cart
-  
-  // If so them add it to the qty field
-              itemToAdd.jumlahqty = 1;
-              this.cartItems.forEach(item => {
-//                item.jumlah = 1; //menset jumlah cart menjadi 1 ketika tombol pinjam di klik
+        methods: {
+          ambilData(){
+            var vm = this;
+            axios.get('http://localhost:8000/api/inventaris/'+this.search)
+            .then(function (response){
+              Vue.set(vm.$data,'items',response.data.items)
+              
+            });
+          },
+          hapusSemua(){
+            alert('sdf')
+          },
+          detailbarang(items){
+          this.detailbarangs.splice(this.detailbarangs[0],1);
+            this.detailbarangs.push(items);
+            $("#detailmodal").modal('show');
 
-                if (item.id_inventaris === itemToAdd.id_inventaris) {
-                  found = true;
-                  item .jumlahqty++; // menambah jumlah item 1 ketika tombol pinjam di klik
-                }
-              });
+          },
+              addToCart(itemToAdd) {
+                var found = false;
+                          // Check if the item was already added to cart
+    
+    // If so them add it to the qty field
+                itemToAdd.jumlahqty = 1;
+                this.cartItems.forEach(item => {
+  //                item.jumlah = 1; //menset jumlah cart menjadi 1 ketika tombol pinjam di klik
 
-              if (found === false) {
-                          
-                this.cartItems.push(Vue.util.extend({}, itemToAdd));
+                  if (item.id_inventaris === itemToAdd.id_inventaris) {
+                    found = true;
+                    item .jumlahqty++; // menambah jumlah item 1 ketika tombol pinjam di klik
+                  }
+                });
+
+                if (found === false) {
                             
+                  this.cartItems.push(Vue.util.extend({}, itemToAdd));
+                              
+                }
+                this.$swal('ditambahkan ke keranjang');
               }
-            }
-            // end method add to cart
+              // end method add to cart
+        }
+            
       }
-           
-    }
 
     </script>

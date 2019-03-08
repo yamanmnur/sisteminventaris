@@ -26,5 +26,8 @@
     "vue-router": "^3.0.2",
     "vue-cart": "",
     "vue-template-compiler": "^2.5.22"
+  },
+  "dependencies": {
+    "vue-sweetalert2": "^1.6.4"
   }
 }

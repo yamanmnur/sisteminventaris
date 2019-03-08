@@ -19,29 +19,36 @@
               <table class="table align-items-center table-flush">
                 <thead class="thead-light">
                   <tr>
-                    <th scope="col">status peminjaman</th>
+                    <th scope="col">KODE PEMINJAMAN</th>
+                    <th scope="col">status pengembalian</th>
                     <th scope="col">nama</th>
-                    <th scope="col">tanggal meminjam</th>
-                    <th scope="col">tanggal kembali</th>
+                   
+                    <th scope="col">status denda</th>
+                    <th scope="col">status peminjaman</th>
                   </tr>
                 </thead>
                 <tbody>
       
                   <tr v-for="item in model">
+                     <td>
+                      {{ item.kode_peminjaman }}
+                    </td>
                     <th scope="row">
                       {{ item.status_peminjaman }}
                     </th>
+                   
                     <td>
                         {{ item.kode_user }}
                     </td>
+                  
                     <td>
-                      {{ item.tanggal_pinjam }}
+                      belum dikenakan denda
                     </td>
                     <td>
-                      {{ item.tanggal_kembali }}
+                      {{ item.status_pinjam }}
                     </td>
                     <td>
-                      <router-link :to="{name : 'profile', params : { kode_user : item.kode_user }  }" class="btn btn-primary">lihat detail</router-link>
+                      <router-link :to="{name : 'detailpinjam', params : { id_peminjaman : item.id_peminjaman }  }" class="btn btn-primary">lihat detail</router-link>
                     </td> 
                   </tr>
       
@@ -54,6 +61,7 @@
 <script>
  import axios from 'axios'
       window.Vue = require('vue');
+      import VueSweetalert2 from 'vue-sweetalert2';
 
         
     export default {
@@ -70,6 +78,7 @@
         axios.get('http://localhost:8000/api/peminjamanuser')
         .then(function (response){
           Vue.set(vm.$data,'model',response.data.model)
+          //vm.$swal('data berhasil di load')
         });
       },
       methods: {
