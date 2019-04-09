@@ -1,4 +1,5 @@
-@extends('layouts.app-contoh')
+ {{ $title }}
+{{-- @extends('layouts.app-contoh')
 @section('judulhalaman')
   halaman utama
 @endsection
@@ -72,4 +73,4 @@
             }
           }
         })*/
-</script>
+</script> --}}

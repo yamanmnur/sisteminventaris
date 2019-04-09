@@ -17,7 +17,7 @@ use App\Jenis;
 use App\Operator;
 use App\Inventaris;
 use Session;
-
+use PDF;
 class AdminController extends Controller
 {
     /**
@@ -213,6 +213,77 @@ class AdminController extends Controller
         
          //echo "sdf";
      }
+     public function generateLaporan(Request $request){
+
+         
+         $data['datar'] = DB::table('tb_peminjaman')
+        ->leftJoin('tb_detail_pinjam','tb_peminjaman.id_peminjaman','=','tb_detail_pinjam.id_detail_pinjam')
+        ->leftJoin('tb_inventaris','tb_detail_pinjam.id_inventaris','=','tb_inventaris.id_inventaris')
+        ->join('users','tb_peminjaman.kode_user','=','users.kode_user')
+        ->leftJoin('tb_operator as tb_menyetujui','tb_peminjaman.kode_operator_menyetujui','=','tb_menyetujui.kode_operator')
+        ->leftJoin('tb_operator as tb_mengembalikan','tb_peminjaman.kode_operator_mengembalikan','=','tb_mengembalikan.kode_operator')
+        ->whereMonth('tb_peminjaman.tanggal_pinjam',$request->bulan)
+        ->whereYear('tb_peminjaman.tanggal_pinjam',$request->tahun)
+        ->select('users.name','users.level','tb_peminjaman.status_peminjaman'
+        ,'tb_peminjaman.tanggal_pinjam'
+        ,'tb_peminjaman.tanggal_kembali'
+        ,'tb_inventaris.nama as nama_barang'
+        ,'tb_detail_pinjam.jumlah as jumlah_pinjam'
+         ,'tb_peminjaman.kode_peminjaman'
+        ,'tb_peminjaman.tanggal_dikembalikan'
+        ,'tb_menyetujui.nama as nama_operator_menyetujui'
+        ,'tb_mengembalikan.nama as nama_operator_mengembalikan'
+        )
+        ->get();
+        // return response()->json([
+        //     'model' => $data
+
+$data['tahun'] = $request->tahun;
+switch ($request->bulan) {
+    case '4':
+        # code...
+        $data['bulan'] = 'april';
+        break;
+    
+    default:
+        # code...
+        break;
+}
+         // ]);
+        $pdf = PDF::loadView('laporan-peminjaman',$data);
+        return $pdf->download('laporan.pdf');
+     }
+     public function generateLaporanView(Request $request){
+        $data = DB::table('tb_peminjaman')
+        ->leftJoin('tb_detail_pinjam','tb_peminjaman.id_peminjaman','=','tb_detail_pinjam.id_detail_pinjam')
+        ->leftJoin('tb_inventaris','tb_detail_pinjam.id_inventaris','=','tb_inventaris.id_inventaris')
+        ->join('users','tb_peminjaman.kode_user','=','users.kode_user')
+        ->leftJoin('tb_operator as tb_menyetujui','tb_peminjaman.kode_operator_menyetujui','=','tb_menyetujui.kode_operator')
+        ->leftJoin('tb_operator as tb_mengembalikan','tb_peminjaman.kode_operator_mengembalikan','=','tb_mengembalikan.kode_operator')
+        ->whereMonth('tb_peminjaman.tanggal_pinjam',$request->bulan)
+        ->whereYear('tb_peminjaman.tanggal_pinjam',$request->tahun)
+        ->select('users.name','users.level','tb_peminjaman.status_peminjaman'
+        ,'tb_peminjaman.tanggal_pinjam'
+        ,'tb_peminjaman.tanggal_kembali'
+        ,'tb_inventaris.nama as nama barang'
+        ,'tb_detail_pinjam.jumlah as jumlah_pinjam'
+         ,'tb_peminjaman.kode_peminjaman'
+        ,'tb_peminjaman.tanggal_dikembalikan'
+        ,'tb_menyetujui.nama as nama_operator_menyetujui'
+        ,'tb_mengembalikan.nama as nama_operator_mengembalikan'
+        )
+        ->get();
+        return response()->json([
+            'model' => $data
+
+
+        ]);
+     }
+     public function generateLaporanBarang(Request $request){
+        $data = $request->data;
+        $pdf = PDF::loadView('contoh',$data);
+        return $pdf->download('laporan.pdf');
+     }
      public function getAllOperator(Request $request){
         $search = $request->search;
         $data = DB::table('tb_operator')
@@ -224,4 +295,18 @@ class AdminController extends Controller
 
         ]);
     }
+
+    // public function getAllDataLaporan(Request $request){
+    //     //select year(tanggal_pinjam) as tahun from tb_peminjaman where status_peminjaman = 'barang sudah dikembalikan' group by year(tanggal_pinjam)
+    //     $dataTahun = DB::('tb_peminjaman')
+    //     ->select('year(tanggal_pinjam) as tahun')
+    //     ->where('status_peminjaman','=','barang sudah dikembalikan')
+    //     ->groupBy('year(tanggal_pinjam)')->get();
+    //      return response()->json([
+    //         'data_tahun' => $dataTahun,
+    //         ''
+
+
+    //     ]);
+    // }
 }

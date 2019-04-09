@@ -25,6 +25,9 @@ import kelolaoperator from './components/Admin/KelolaOperator.vue';
 import dashboardadmin from './components/Admin/Dashboard.vue';
 import kelolajenis from './components/Admin/KelolaJenis.vue';
 import kelolaruang from './components/Admin/KelolaRuang.vue';
+import genaratelaporan from './components/Admin/GenerateLaporan.vue';
+import detailpeminjamanadmin from './components/Admin/DetailPeminjaman.vue';
+import riwayatpeminjamanadmin from './components/Admin/RiwayatPeminjaman.vue';
 //import kelolaoperator from './components/Admin/KelolaRuang.vue';
 window.Vue = require('vue');
 
@@ -148,7 +151,22 @@ const routes = [
         path : '/admin/kelolajenis',
         component :kelolajenis,
         props : true
-    }  
+    },{
+        name : 'riwayatpeminjaman',
+        path : '/admin/riwayatpeminjaman',
+        component :riwayatpeminjamanadmin,
+        props : true
+    } ,{
+        name : 'detailpeminjaman',
+        path : '/admin/detailpeminjaman/:id_peminjaman',
+        component :detailpeminjamanadmin,
+        props : true
+    },{
+        name : 'generatelaporan',
+        path : '/admin/generatelaporan',
+        component :genaratelaporan,
+        props : true
+    }
     
     
 

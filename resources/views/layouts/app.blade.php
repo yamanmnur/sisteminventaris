@@ -29,9 +29,10 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <!-- Brand -->
-        <a class="navbar-brand pt-0" href="./index.html">
-        <img src="{{ asset('assets/img/brand/blue.png')}}" class="navbar-brand-img" alt="...">
-        </a>
+         
+        <h3 class="navbar-brand pt-0">
+          SI INVENTARIS <br> SEKOLAH
+        </h3>
         <!-- User -->
         <ul class="nav align-items-center d-md-none">
           <li class="nav-item dropdown">
@@ -73,8 +74,7 @@
               <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <div class="media align-items-center">
                   <span class="avatar avatar-sm rounded-circle">
-                    <img alt="Image placeholder" src="{{ asset('assets/img/theme/team-1-800x800.jpg') }}">
-                  </span>
+                   </span>
                 </div>
               </a>
               <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right">
@@ -147,16 +147,7 @@
                 <i class="ni ni-tv-2 text-primary"></i> Riwayat Peminjaman
               </router-link>
             </li>
-            <li class="nav-item">
-              <router-link class="nav-link" to="/home/pesan">
-                <i class="ni ni-tv-2 text-primary"></i> Pesan
-              </router-link>
-            </li>
-            <li class="nav-item">
-                <router-link class="nav-link" to="/home/profileuser">
-                    <i class="ni ni-tv-2 text-primary"></i> Profile
-                </router-link>
-            </li>
+             
             
             
            

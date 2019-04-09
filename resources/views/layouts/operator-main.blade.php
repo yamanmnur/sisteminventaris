@@ -30,9 +30,7 @@
             <span class="navbar-toggler-icon"></span>
           </button>
           <!-- Brand -->
-          <a class="navbar-brand pt-0" href="./index.html">
-          <img src="{{ asset('assets/img/brand/blue.png')}}" class="navbar-brand-img" alt="...">
-          </a>
+          <h3 class="navbar-brand pt-0">SI INVENTARIS <br> SEKOLAH</h3>
           <!-- User -->
           <ul class="nav align-items-center d-md-none">
             <li class="nav-item dropdown">
@@ -74,8 +72,7 @@
                 <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <div class="media align-items-center">
                     <span class="avatar avatar-sm rounded-circle">
-                      <img alt="Image placeholder" src="{{ asset('assets/img/theme/team-1-800x800.jpg') }}">
-                    </span>
+                     </span>
                   </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right">
@@ -114,8 +111,7 @@
               <div class="row">
                 <div class="col-6 collapse-brand">
                   <a href="./index.html">
-                    <img src="./assets/img/brand/blue.png">
-                  </a>
+                   </a>
                 </div>
                 <div class="col-6 collapse-close">
                   <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#sidenav-collapse-main" aria-controls="sidenav-main" aria-expanded="false" aria-label="Toggle sidenav">
@@ -148,16 +144,7 @@
                   <i class="ni ni-tv-2 text-primary"></i>Kelola Pengguna
                 </router-link>
               </li>             
-              <li class="nav-item">
-                <router-link class="nav-link" to="/operator">
-                  <i class="ni ni-tv-2 text-primary"></i>Tambah Pesan
-                </router-link>
-              </li>
-              <li class="nav-item">
-                <router-link class="nav-link" to="/operator">
-                  <i class="ni ni-tv-2 text-primary"></i>profile
-                </router-link>
-              </li>
+               
             </ul>
             <!-- Divider -->
             <hr class="my-3">
@@ -181,8 +168,7 @@
         <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
           <div class="container-fluid">
             <!-- Brand -->
-            <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="#">@yield('judulhalaman')</a>
-            <!-- Form -->
+             <!-- Form -->
              
             <!-- User -->
             <ul class="navbar-nav align-items-center d-none d-md-flex">

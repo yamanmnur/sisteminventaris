@@ -28,9 +28,8 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <!-- Brand -->
-        <a class="navbar-brand pt-0" href="./index.html">
-        <img src="{{ asset('assets/img/brand/blue.png')}}" class="navbar-brand-img" alt="...">
-        </a>
+
+        <h3 class="navbar-brand  ">SI INVENTARIS <br>SEKOLAH</h3>
         <!-- User -->
         <ul class="nav align-items-center d-md-none">
           <li class="nav-item dropdown">
@@ -72,8 +71,7 @@
               <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <div class="media align-items-center">
                   <span class="avatar avatar-sm rounded-circle">
-                    <img alt="Image placeholder" src="{{ asset('assets/img/theme/team-1-800x800.jpg') }}">
-                  </span>
+                   </span>
                 </div>
               </a>
               <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right">
@@ -112,8 +110,7 @@
             <div class="row">
               <div class="col-6 collapse-brand">
                 <a href="./index.html">
-                  <img src="./assets/img/brand/blue.png">
-                </a>
+                 </a>
               </div>
               <div class="col-6 collapse-close">
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#sidenav-collapse-main" aria-controls="sidenav-main" aria-expanded="false" aria-label="Toggle sidenav">
@@ -165,9 +162,14 @@
                 </router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="ni ni-tv-2 text-primary"></i> Generate Laporan
-              </a>
+              <router-link class="nav-link" to="/admin/riwayatpeminjaman">
+                <i class="ni ni-tv-2 text-primary"></i>Riwayat Peminjaman
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/admin/generatelaporan">
+                <i class="ni ni-tv-2 text-primary"></i>Generate Laporan
+              </router-link>
             </li>
             
             
@@ -236,8 +238,7 @@
               <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <div class="media align-items-center">
                   <span class="avatar avatar-sm rounded-circle">
-                    <img alt="Image placeholder" src="{{ asset('assets/img/theme/team-4-800x800.jpg')}}">
-                  </span>
+                   </span>
                   <div class="media-body ml-2 d-none d-lg-block">
                     <span class="mb-0 text-sm  font-weight-bold">{{ Auth::user()->nama_admin }}</span>
                   </div>

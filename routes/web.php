@@ -34,6 +34,7 @@ Route::prefix('/home')->group(function(){
     
 });
 Route::prefix('/operator')->group(function(){
+    Route::get('/batalkanpeminjaman/{id_peminjaman}','OperatorController@batalkanPeminjaman');
 
     Route::get('/login','Auth\OperatorLoginController@showLoginForm')->name('operator.login');
     Route::post('/login','Auth\OperatorLoginController@login')->name('operator.login.submit');
@@ -53,6 +54,12 @@ Route::prefix('/operator')->group(function(){
 });
 Route::get('/hapusadmin','hapusAdminController@hapusAdmin');
 Route::prefix('/admin')->group(function(){
+
+    Route::get('/jadikanlaporanpeminjaman/{bulan}/tahun/{tahun}','AdminController@generateLaporan');
+    Route::get('/jadikanlaporanpeminjaman','AdminController@generateLaporan');
+    Route::get('/generatelaporanview/{bulan}/tahun/{tahun}','AdminController@generateLaporanView');
+    Route::get('/generatelaporanview','AdminController@generateLaporanView');
+
 
     Route::get('/login','Auth\AdminLoginController@showLoginForm')->name('admin.login');
     Route::post('/loginsubmit','Auth\AdminLoginController@login')->name('admin.login.submit');

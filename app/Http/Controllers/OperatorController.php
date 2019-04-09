@@ -279,7 +279,11 @@ use App\UserSiswa;
 
         ]);
     }
-    
+    public function batalkanPeminjaman(Request $request){
+        $data = new Peminjaman;
+        DB::table('tb_detail_pinjam')->where('id_detail_pinjam','=',$request->id_peminjaman)->delete();
+        DB::table('tb_peminjaman')->where('id_peminjaman','=',$request->id_peminjaman)->delete();
+     }
     public function tambahPesan(){
 
     }
