@@ -18,7 +18,14 @@ import detailpeminjaman from './components/DetailPeminjaman.vue';
 import operatordashboard from './components/Operator/Dashboard.vue';
 import pesanop from './components/Operator/PesanOp.vue';
 import profileop from "./components/Operator/ProfileOperator.vue";
+import kelolapengguna from './components/Operator/KelolaPengguna.vue';
 import VueSweetalert2 from 'vue-sweetalert2';
+import kelolabarang from './components/Admin/KelolaBarang.vue';
+import kelolaoperator from './components/Admin/KelolaOperator.vue';
+import dashboardadmin from './components/Admin/Dashboard.vue';
+import kelolajenis from './components/Admin/KelolaJenis.vue';
+import kelolaruang from './components/Admin/KelolaRuang.vue';
+//import kelolaoperator from './components/Admin/KelolaRuang.vue';
 window.Vue = require('vue');
 
 /**
@@ -108,7 +115,41 @@ const routes = [
         path : '/operator/pesanop',
         component : pesanop,
         props : true
+    },{
+        name : 'kelolapengguna',
+        path : '/operator/kelolapengguna',
+        component : kelolapengguna,
+        props : true
     }
+    //admin routes
+    ,{
+        name : 'admin',
+        path : '/admin',
+        component : dashboardadmin,
+        props : true
+    }
+    ,{
+        name : 'inventarisir',
+        path : '/admin/inventarisir',
+        component : kelolabarang,
+        props : true
+    },{
+        name : 'kelolaoperator',
+        path : '/admin/kelolaoperator',
+        component :kelolaoperator,
+        props : true
+    },{
+        name : 'kelolaruang',
+        path : '/admin/kelolaruang',
+        component :kelolaruang,
+        props : true
+    },{
+        name : 'kelolajenis',
+        path : '/admin/kelolajenis',
+        component :kelolajenis,
+        props : true
+    }  
+    
     
 
 ];

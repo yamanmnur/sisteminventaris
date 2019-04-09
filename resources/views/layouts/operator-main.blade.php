@@ -3,6 +3,8 @@
 <html lang="en">
 
   <head>
+      <meta name="csrf-token" content="{{ csrf_token() }}" >
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
@@ -16,7 +18,6 @@
     <link href="{{ asset('assets/vendor/@fortawesome/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
     <!-- Argon CSS -->
     <link type="text/css" href="{{ asset('assets/css/argon.min.css?v=1.0.0') }}" rel="stylesheet">
-  <meta name="csrf-token" content="{{ csrf_token() }}" >
   </head>
   <body>
       <!-- Sidenav -->
@@ -143,8 +144,8 @@
                 </router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="/operator/pesanop">
-                  <i class="ni ni-tv-2 text-primary"></i>List User
+                <router-link class="nav-link" to="/operator/kelolapengguna">
+                  <i class="ni ni-tv-2 text-primary"></i>Kelola Pengguna
                 </router-link>
               </li>             
               <li class="nav-item">
@@ -231,14 +232,14 @@
                    
                    
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="{{ route('logout') }}"
+                  <a class="dropdown-item" href="{{ route('operator.logout') }}"
                     onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();">
                      
                     <i class="ni ni-user-run"></i>
                     <span>Logout</span>
                   </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    <form id="logout-form" action="{{ route('operator.logout') }}" method="GET" style="display: none;">
                       @csrf
                     </form>
                 </div>
@@ -270,6 +271,8 @@
   // $(function(){
   //     $('#boraks').trigger('click'); // alternatively $('selector').click();
   // });
+  window.csrf_token = "{{ csrf_token() }}"
+
   $('#login-modal').on('click', function(event) {
       event.preventDefault(); 
       var url = '/login';

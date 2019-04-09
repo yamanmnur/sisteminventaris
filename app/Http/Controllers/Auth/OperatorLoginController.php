@@ -5,9 +5,13 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+
 class OperatorLoginController extends Controller
 {
     //
+    use AuthenticatesUsers;
+
     public function __construct(){
         $this->middleware('guest:operator')->except('operatorLogout');
     }

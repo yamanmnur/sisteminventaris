@@ -3,11 +3,13 @@
 <html>
 
 <head>
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta charset="utf-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
   <meta name="author" content="Creative Tim">
-  <title>Argon Dashboard - Free Dashboard for Bootstrap 4</title>
+  <title>Sistem Inventarisir SMKN 2 BANDUNG</title>
   <!-- Favicon -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
   <!-- Icons -->
@@ -17,6 +19,7 @@
   <link type="text/css" href="{{ asset('assets/css/argon.min.css?v=1.0.0') }}" rel="stylesheet">
 </head>
 <body>
+  <div id="app">
     <!-- Sidenav -->
     <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
       <div class="container-fluid">
@@ -134,19 +137,32 @@
           <!-- Navigation -->
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <router-link class="nav-link" to="/admin">
                 <i class="ni ni-tv-2 text-primary"></i>Home
-              </a>
+              </router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="ni ni-tv-2 text-primary"></i> Inventarisir
-              </a>
+              
+              <router-link class="nav-link" to="/admin/inventarisir">
+                <i class="ni ni-tv-2 text-primary"></i>Inventarisir
+              </router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="ni ni-tv-2 text-primary"></i> Daftar Operator
-              </a>
+              
+              <router-link class="nav-link" to="/admin/kelolaruang">
+                <i class="ni ni-tv-2 text-primary"></i>Kelola Ruang
+              </router-link>
+            </li>
+            <li class="nav-item">
+              
+              <router-link class="nav-link" to="/admin/kelolajenis">
+                <i class="ni ni-tv-2 text-primary"></i>Kelola Jenis Barang
+              </router-link>
+            </li>
+            <li class="nav-item">
+                <router-link class="nav-link" to="/admin/kelolaoperator">
+                  <i class="ni ni-tv-2 text-primary"></i>Kelola Operator
+                </router-link>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">
@@ -187,7 +203,7 @@
       <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
         <div class="container-fluid">
           <!-- Brand -->
-          <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="#"">@yield('judulhalaman')</a>
+          <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="#">@yield('judulhalaman')</a>
           <!-- Form -->
            
           <!-- User -->
@@ -223,7 +239,7 @@
                     <img alt="Image placeholder" src="{{ asset('assets/img/theme/team-4-800x800.jpg')}}">
                   </span>
                   <div class="media-body ml-2 d-none d-lg-block">
-                    <span class="mb-0 text-sm  font-weight-bold">{{ Auth::user()->nama }}</span>
+                    <span class="mb-0 text-sm  font-weight-bold">{{ Auth::user()->nama_admin }}</span>
                   </div>
                 </div>
               </a>
@@ -238,14 +254,14 @@
                  
                  
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{{ route('logout') }}"
+                <a class="dropdown-item" href="{{ route('admin.logout') }}"
                   onclick="event.preventDefault();
                   document.getElementById('logout-form').submit();">
                    
                   <i class="ni ni-user-run"></i>
                   <span>Logout</span>
                 </a>
-                  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                  <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
                     @csrf
                   </form>
               </div>
@@ -261,19 +277,20 @@
         @yield('content')
       <!-- End Page content -->
     </div>
- 
+  </div>
 </body>
     <script src="{{ asset('assets/vendor/jquery/dist/jquery.min.js') }}"></script>
-<script src="{{ asset('assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
-<!-- Optional JS -->
+ <!-- Optional JS -->
 <script src="{{ asset('assets/vendor/chart.js/dist/Chart.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/chart.js/dist/Chart.extension.js') }}"></script>
 <!-- Argon JS -->
 <script src="{{ asset('assets/js/argon.min.js?v=1.0.0') }}"></script>
+<script src="{{asset('js/app.js')}}"></script>
+
 @guest
-<script>$(function(){
-    $('#boraks').trigger('click'); // alternatively $('selector').click();
-});
+<script> 
+  window.csrf_token = "{{ csrf_token() }}"
+
 $('#login-modal').on('click', function(event) {
     event.preventDefault(); 
     var url = '/login';

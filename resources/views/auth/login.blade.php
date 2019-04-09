@@ -23,8 +23,7 @@
           <nav class="navbar navbar-top navbar-horizontal navbar-expand-md navbar-dark">
             <div class="container px-4">
               <a class="navbar-brand" href="../index.html">
-                <img src="../assets/img/brand/white.png" />
-              </a>
+SIGUDANG              </a>
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse-main" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
@@ -34,8 +33,7 @@
                   <div class="row">
                     <div class="col-6 collapse-brand">
                       <a href="../index.html">
-                        <img src="../assets/img/brand/blue.png">
-                      </a>
+SIGUDANG                      </a>
                     </div>
                     <div class="col-6 collapse-close">
                       <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse-main" aria-controls="sidenav-main" aria-expanded="false" aria-label="Toggle sidenav">
@@ -48,15 +46,9 @@
                 <!-- Navbar items -->
                 <ul class="navbar-nav ml-auto">
                   <li class="nav-item">
-                    <a class="nav-link nav-link-icon" href="../index.html">
-                      <i class="ni ni-planet"></i>
-                      <span class="nav-link-inner--text">Dashboard</span>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link nav-link-icon" href="../examples/register.html">
-                      <i class="ni ni-circle-08"></i>
-                      <span class="nav-link-inner--text">Register</span>
+                    <a class="nav-link nav-link-icon" href="../examples/login.html">
+                      <i class="ni ni-key-25"></i>
+                      <span class="nav-link-inner--text">Login Sebagai Operator</span>
                     </a>
                   </li>
                   <li class="nav-item">
@@ -65,12 +57,7 @@
                       <span class="nav-link-inner--text">Login Sebagai Admin</span>
                     </a>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link nav-link-icon" href="../examples/profile.html">
-                      <i class="ni ni-single-02"></i>
-                      <span class="nav-link-inner--text">Profile</span>
-                    </a>
-                  </li>
+                   
                 </ul>
               </div>
             </div>
@@ -130,25 +117,25 @@
                         </label>
                       </div>
                       <div class="text-center">
-                        <button type="submit" class="btn btn-primary my-4">Sign in</button>
+                        <button type="submit" class="btn btn-primary my-4">MASUK</button>
                       </div>
                     </form>
                   </div>
                 </div>
-                <div class="row mt-3">
+                {{-- <div class="row mt-3">
                   <div class="col-6">
                     <a href="#" class="text-light"><small>Forgot password?</small></a>
                   </div>
                   <div class="col-6 text-right">
                     <a href="#" class="text-light"><small>Create new account</small></a>
                   </div>
-                </div>
+                </div> --}}
               </div>
             </div>
           </div>
         </div>
         <!-- Footer -->
-        <footer class="py-5">
+        {{-- <footer class="py-5">
           <div class="container">
             <div class="row align-items-center justify-content-xl-between">
               <div class="col-xl-6">
@@ -174,7 +161,7 @@
               </div>
             </div>
           </div>
-        </footer>
+        </footer> --}}
         <!-- Argon Scripts -->
         <!-- Core -->
    

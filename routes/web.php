@@ -24,23 +24,30 @@ Route::get('/api/inventaris/{search}','HomeController@getAllInventaris')->name('
 Route::get('/api/peminjamanuser','HomeController@getAllPeminjamanUser')->name('api.peminjamanuser');
 Route::get('/api/operator/peminjamanuser/{search}','OperatorController@getAllPeminjamanUser')->name('operator.api.peminjamanuser');
 Route::get('/api/operator/peminjamanuser','OperatorController@getAllPeminjamanUser')->name('semua.operator.api.peminjamanuser');
-
+Route::get('/batalkanpeminjaman/{id_peminjaman}','HomeController@batalkanPeminjaman');
 Route::get('/api/detailpinjam/{items}','HomeController@getDetailPeminjamanUser');
 Route::get('/api/operator/detailpinjam/{items}','OperatorController@getDetailPeminjamanUser');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::prefix('/home')->group(function(){
+    Route::get('/home/logout','Auth\LoginController@userLogout')->name('user.logout');
     Route::get('{path}','HomeController@index')->where('path','([A-z\d-\/_.]+)?');
+    
 });
 Route::prefix('/operator')->group(function(){
 
     Route::get('/login','Auth\OperatorLoginController@showLoginForm')->name('operator.login');
     Route::post('/login','Auth\OperatorLoginController@login')->name('operator.login.submit');
     Route::get('/','OperatorController@index')->name('operator.dashboard');
-    Route::get('/logout','Auth\OperatorLoginController@adminLogout')->name('operator.logout');
+    Route::get('/logout','Auth\OperatorLoginController@operatorLogout')->name('operator.logout');
     Route::get('/api/allpeminjam/{query}','OperatorController@listPeminjam');
     Route::get('/api/allpeminjam','OperatorController@listPeminjam');
-    Route::post('/setujuipeminjaman','OperatorController@setujuipeminjaman');
+    Route::get('/setujuipeminjaman/{id_peminjaman}','OperatorController@setujuipeminjaman');
     Route::post('/api/operator/kembalikanbarang','OperatorController@kembalikanBarang');
+    Route::post('/api/tambahuser','OperatorController@tambahUser');
+    Route::post('/api/edituser','OperatorController@editUser');
+    Route::get('/api/getalluser/{search}','OperatorController@getAllUser');
+    Route::get('/api/getalluser','OperatorController@getAllUser');
+    Route::post('/api/kembalikanbarangsatuan','OperatorController@kembalikanBarangSatuan');
     Route::get('{path}','OperatorController@index')->where('path','([A-z\d-\/_.]+)?');
 
 });
@@ -51,8 +58,30 @@ Route::prefix('/admin')->group(function(){
     Route::post('/loginsubmit','Auth\AdminLoginController@login')->name('admin.login.submit');
     Route::get('/','AdminController@index')->name('admin.dashboard');
     Route::get('/logout','Auth\AdminLoginController@adminLogout')->name('admin.logout');
- 
-    Route::get('/inventarisir','Admin\InventarisController@index')->name('admin.inventarisir.index');
-    
+    Route::get('/api/getallinventaris','AdminController@getAllInventaris');
+    Route::get('/api/getallinventaris/{search}','AdminController@getAllInventaris');
+    Route::post('/api/tambahbarang','AdminController@tambahBarang');
+    Route::post('/api/editbarang','AdminController@editBarang');
+
+    //kelola ruang
+    Route::get('/api/getallruang','AdminController@getAllRuang');
+    Route::get('/api/getallruang/{search}','AdminController@getAllRuang');
+    Route::post('/api/tambahruang','AdminController@tambahRuang');
+    Route::post('/api/editruang','AdminController@editRuang');
+    //kelola jenis
+
+    Route::get('/api/getalljenis','AdminController@getAllJenis');
+    Route::get('/api/getalljenis/{search}','AdminController@getAllJenis');
+    Route::post('/api/tambahjenis','AdminController@tambahjenis');
+    Route::post('/api/editjenis','AdminController@editjenis');
+
+    //kelola operator
+    Route::post('/api/tambahoperator','AdminController@tambahOperator');
+    Route::post('/api/editoperator','AdminController@editOperator');
+    Route::get('/api/getalloperator/{search}','OperatorController@getAllOperator');
+    Route::get('/api/getalloperator','AdminController@getAllOperator');
+    //Route::get('/inventarisir','Admin\InventarisController@index')->name('admin.inventarisir.index');
+    Route::get('{path}','AdminController@index')->where('path','([A-z\d-\/_.]+)?');
+
 
 });

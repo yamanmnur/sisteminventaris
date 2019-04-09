@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Admin extends Model
+class Admin extends Authenticatable
 {
     use Notifiable;
 
@@ -46,3 +46,13 @@ class Admin extends Model
     
     
 }
+// > $admin->nama_admin = "admin master"
+// => "admin master"
+// >>> $admin->kode_admin = "KKKADM01"
+// => "KKKADM01"
+// >>> $admin->email = "adminmaster@gmail.com"
+// => "adminmaster@gmail.com"
+// >>> $admin->password = Hash::make("password")
+// => "$2y$10$Q0/5hlYGWmzHyXQ4j8fEt.6H1YCR5LmjuUJatCex8Q5B99zHNXjaS"
+// >>> $admin->save()
+// => true

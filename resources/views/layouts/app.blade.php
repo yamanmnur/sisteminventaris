@@ -220,7 +220,7 @@
                     <img alt="Image placeholder" src="{{ asset('assets/img/theme/team-4-800x800.jpg')}}">
                   </span>
                   <div class="media-body ml-2 d-none d-lg-block">
-                    <span class="mb-0 text-sm  font-weight-bold">{{ Auth::user()->nama }}</span>
+                    <span class="mb-0 text-sm  font-weight-bold">{{ Auth::user()->name }}</span>
                   </div>
                 </div>
               </a>
@@ -235,14 +235,14 @@
                  
                  
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{{ route('logout') }}"
+                <a class="dropdown-item" href="{{ route('user.logout') }}"
                   onclick="event.preventDefault();
                   document.getElementById('logout-form').submit();">
                    
                   <i class="ni ni-user-run"></i>
                   <span>Logout</span>
                 </a>
-                  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                  <form id="logout-form" action="{{ route('user.logout') }}" method="GET" style="display: none;">
                     @csrf
                   </form>
               </div>
@@ -270,9 +270,10 @@
 <script src="{{ asset('assets/js/argon.min.js?v=1.0.0') }}"></script>
 <script src="{{asset('js/app.js')}}"></script>
  
-<script>$(function(){
-    $('#boraks').trigger('click'); // alternatively $('selector').click();
-});
+<script>
+// $(function(){
+//     $('#boraks').trigger('click'); // alternatively $('selector').click();
+// });
 $('#login-modal').on('click', function(event) {
     event.preventDefault(); 
     var url = '/login';

@@ -1,6 +1,6 @@
 <template>
     <div>
-      <button class="btn btn-success" @click="bukamodal()">Tambah User</button>
+      <button class="btn btn-success" @click="bukamodal()">Tambah Barang</button>
               
              
             <br>
@@ -24,29 +24,19 @@
                                 <div class="row">
                      <div class="col-lg-6">
                       <div class="form-group focused">
-                        <label class="form-control-label" for="input-username">Nama Lengkap {{ datadiri.nama }} </label>
-                        <input v-model = "datadiri.nama" type="text" id="input-username" class="form-control " placeholder="example" name="namalengkap">
-                      </div>
-                    </div>
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-email">Email </label>
-                        <input type="email" id="input-email" v-model="datadiri.email" class="form-control " placeholder="jesse@example.com" name="email">
-                      </div>
-                    </div>
-                     <div class="col-lg-6">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-email">no tlp </label>
-                        <input type="text" id="input-email" v-model="datadiri.no_tlp" class="form-control " placeholder="jesse@example.com" name="email">
+                        <label class="form-control-label" for="input-username">Nama jenis  </label>
+                        <input v-model = "formdata.nama_jenis" type="text" id="input-username" class="form-control " placeholder="example" >
                       </div>
                     </div>
                      
-                    <div class="col-lg-6">
+                    <div class="col-lg-12"  >
                       <div class="form-group">
-                        <label class="form-control-label"  >{{ judul_password }} </label>
-                        <input type="password"  v-model = "datadiri.password" class="form-control  "   name="password">
+                        <label class="form-control-label" for="input-email" >keterangan </label>
+                        <textarea name="" v-model="formdata.keterangan" cols="30" rows="10" class="form-control"  >{{ formdata.keterangan }}</textarea>
+                       
                       </div>
                     </div>
+                     
                   </div>
                           <button type="submit" class="btn btn-default" >Tambah</button>
                    
@@ -76,8 +66,7 @@
                 <thead class="thead-light">
                   <tr>
                       <th scope="col">nama</th>
-                    <th scope="col">no tlp</th>
-                    <th scope="col">email</th>
+                     <th scope="col">keterangan</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -85,15 +74,12 @@
                     
 
                     <td>
-                        {{ item.nama }}
+                        {{ item.nama_jenis }}
                     </td>
                     <td>
-                      {{ item.no_tlp }}
+                      {{ item.keterangan }}
                     </td>
-                    <td>
-                      {{ item.email }}
-                    </td>
-                    
+                     
                     <td>
                        <button @click="updateuser(item)" class="btn btn-success">update</button>
                     </td> 
@@ -101,7 +87,6 @@
       
                 </tbody>
               </table>
-
             </div>
             <div class="card-footer py-4">
               <nav aria-label="...">
@@ -178,13 +163,19 @@ import VueSweetalert2 from 'vue-sweetalert2';
 export default {
     data(){
         return{
-            judul_form : "tambah operator",
-            judul_password : "password",
-            datadiri : {'kode_operator' : '',"nama" : '',"email": "","password" : '',
-            "no_tlp" : ""},
+            judul_form : "tambah barang",
+                        datadiri : {'kode_user' : '',"nama" : '',"email": "","password" : '',"kelas" : '', "jurusan" : "","level" : '',"no_id" : ""},
+
+            formdata : {
+                 "nama_jenis" : '',
+                 "keterangan" : '',
+                 "kode_jenis" : '',
+            },
             error : {nama : '',kelas : ''},
             level : '',
             value : 'error',
+            model_jenis : {},
+            model_ruang : {},
             nama : '',
             search : '',
           model : {},
@@ -203,12 +194,13 @@ export default {
         //   vm.$swal('data berhasil di load')www.bangringo.com
         // });  
         var vm = this;
-        axios.get('http://localhost:8000/admin/api/getalloperator/'+this.search)
+        axios.get('http://localhost:8000/admin/api/getalljenis/'+this.search)
         .then(function (response){
           Vue.set(vm.$data,'model',response.data.model)
-          
+           
+          vm.last_page = vm.model['last_page']
           vm.$swal('data berhasil di load')
-           vm.last_page = vm.model['last_page']
+           
 
           var a = []
           for(var i = 0;i < vm.last_page ;i++){
@@ -223,29 +215,24 @@ export default {
     methods : {
       bukamodal(){
         $("#cartModal").modal('show');
-        this.judul_form = "tambah operator";
+        this.judul_form = "tambah barang";
         this.judul_password = "password baru";
-        this.datadiri.nama = "";
-        this.datadiri.email = "";
-        this.datadiri.password = "";
-        
-        this.datadiri.no_tlp = "";
-        this.datadiri.kode_operator = "";
-      },
+        this.formdata.nama_jenis = "";
+         this.formdata.keterangan = "";
+       
+        this.formdata.kode_jenis = "";
+        },
       updateuser(item){
           $("#cartModal").modal('show');
-          this.datadiri.kode_operator = item.kode_operator;
-          this.judul_form = "update operator";
-          this.judul_password = "password baru";
-          this.datadiri.nama = item.nama;
-          this.datadiri.email = item.email;
-          
-          this.datadiri.no_tlp = item.no_tlp;
-      },
+           this.judul_form = "update jenis";
+         this.formdata.nama_jenis = item.nama_jenis;
+          this.formdata.keterangan = item.keterangan_jenis;
+         this.formdata.kode_jenis = item.kode_jenis;
+       },
       ambilDataPagination(nomor){
            
         var vm = this;
-        axios.get('http://localhost:8000/admin/api/getalloperator/'+this.search+'?page='+nomor)
+        axios.get('http://localhost:8000/admin/api/getalljenis/'+this.search+'?page='+nomor)
         .then(function (response){
           Vue.set(vm.$data,'model',response.data.model)
           vm.page = nomor
@@ -255,7 +242,7 @@ export default {
       },
       ambilData(){
         var vm = this;
-        axios.get('http://localhost:8000/admin/api/getalloperator/'+this.search)
+        axios.get('http://localhost:8000/admin/api/getalljenis/'+this.search)
         .then(function (response){
           Vue.set(vm.$data,'model',response.data.model)   
           
@@ -267,28 +254,29 @@ export default {
                                  
 
             //Vue.set(vm.$data,'pagination2',i)
-           a[i] = {nomor : i ,href : 'http://localhost:8000/admin/api/getalloperator?page='+i}
+           a[i] = {nomor : i ,href : 'http://localhost:8000/operator/api/getalluser?page='+i}
           }
            Vue.set(vm.$data,'pagination2',a)
         });
       },
       ambilDataLangsung(){
         var vm = this;
-        axios.get('http://localhost:8000/admin/api/getalloperator')
+        axios.get('http://localhost:8000/admin/api/getalljenis')
         .then(function (response){
           Vue.set(vm.$data,'model',response.data.model)   
         });
       },
         tambahUser(event){
           var vm = this
-          if (this.judul_form == 'update operator') {
-            if (this.datadiri.nama == "" || this.datadiri.email == "" || this.datadiri.password == "" || this.datadiri.no_tlp == "") {
-              vm.$swal('update user gagal, tidak boleh ada data yang kosong');
+          if (this.judul_form == 'update jenis') {
+            if (this.formdata.nama_jenis == "" || this.formdata.keterangan == "" 
+            ) {
+              vm.$swal('update jenis gagal, tidak boleh ada data yang kosong');
             } else {
               
-              axios.post('/admin/api/editoperator',   { datadiri : this.datadiri})
+              axios.post('/admin/api/editjenis',   { formdata : this.formdata})
             .then(function (resp){
-              vm.$swal('operator berhasil diupdate')
+              vm.$swal('jenis berhasil diupdate')
               //vm.$router.push('/home/riwayatpeminjaman');
               vm.ambilDataLangsung()
               $('#cartModal').modal('hide')
@@ -302,16 +290,17 @@ export default {
                 
           } else {
             
-            if (this.datadiri.nama == "" || this.datadiri.email == "" || this.datadiri.password == "" || this.datadiri.no_tlp == "") {
-              vm.$swal("data diri tidak boleh kosong");
+            if (this.formdata.nama_jenis == "" || this.formdata.keterangan == "" 
+            ){
+              vm.$swal("data barang tidak boleh kosong");
             } else {
               
             
             
             
-            axios.post('/admin/api/tambahoperator',   { datadiri : this.datadiri})
+            axios.post('/admin/api/tambahjenis',   { formdata : this.formdata})
             .then(function (resp){
-              vm.$swal('user berhasil ditambahkan')
+              vm.$swal('jenis berhasil ditambahkan')
               //vm.$router.push('/home/riwayatpeminjaman');
               vm.ambilDataLangsung()
               $('#cartModal').modal('hide')

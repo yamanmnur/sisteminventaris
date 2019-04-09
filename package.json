@@ -24,8 +24,11 @@
     "vue-axios": "^2.1.4",
     "vue-loader": "^15.6.2",
     "vue-router": "^3.0.2",
-    "vue-cart": "",
-    "vue-template-compiler": "^2.5.22"
+     "vue-date" : "^1.0.0",
+     "vue-datetime" : "^1.0.0-alpha.8",
+    "vue-template-compiler": "^2.5.22",
+    "luxon" : "^1.0.0",
+    "weekstart" : "^1.0.0"
   },
   "dependencies": {
     "vue-sweetalert2": "^1.6.4"

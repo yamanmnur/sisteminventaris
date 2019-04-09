@@ -21,7 +21,7 @@
                   <tr>
                     <th scope="col">KODE PEMINJAMAN</th>
                     <th scope="col">status pengembalian</th>
-                    <th scope="col">nama</th>
+                   
                    
                     <th scope="col">status denda</th>
                     <th scope="col">status peminjaman</th>
@@ -37,9 +37,7 @@
                       {{ item.status_peminjaman }}
                     </th>
                    
-                    <td>
-                        {{ item.kode_user }}
-                    </td>
+                    
                   
                     <td>
                       belum dikenakan denda
@@ -78,7 +76,7 @@
         axios.get('http://localhost:8000/api/peminjamanuser')
         .then(function (response){
           Vue.set(vm.$data,'model',response.data.model)
-          //vm.$swal('data berhasil di load')
+          vm.$swal('data berhasil di load')
         });
       },
       methods: {

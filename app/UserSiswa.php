@@ -6,7 +6,14 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+
+//menggunakan softdelete
+//use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
+
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class UserSiswa extends Model
 {
     use Notifiable;
 
@@ -15,12 +22,14 @@ class User extends Authenticatable
      *
      * @var array
      */
-    public $incrementing = false;
+
+   
+    protected $table = 'user_siswa';
+    public $timestamps = false;
     protected $primaryKey = 'kode_user';
     protected $fillable = [
-        'kode_user','name', 'email', 'password',
-        
-        'status_hapus','level','tanggal_dihapus'
+        'kode_user','kelas','jurusan','no_id'
+        //,'foto','alamat'
     ];
 
     /**
@@ -28,7 +37,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+   
+    
+    
 }

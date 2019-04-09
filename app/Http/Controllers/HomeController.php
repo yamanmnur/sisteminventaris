@@ -33,9 +33,15 @@ class HomeController extends Controller
     }
     public function getAllInventaris(Request $request){
         $search = $request->search;
-        $data = DB::table('tb_inventaris')->where('nama','LIKE',"%$search%")->paginate(10);
+        $data = DB::table('tb_inventaris')->where('nama','LIKE',"%$search%")->paginate(5);
+        $kondisi  = DB::table('tb_detail_pinjam')
+        ->select(DB::raw('sum(jumlah) as jumlah,id_inventaris'))
+        
+        ->groupBy('id_inventaris')
+        ->get();
+        $dd = ['y'=> 'a'];
         return response()->json([
-            'items' => $data
+            'items' => $data,'sisasisa'=>$kondisi
         ]);
     }
     // public function getAllPeminjamanUser(Request $request){
@@ -46,9 +52,10 @@ class HomeController extends Controller
         //     ]);
         // }
     public function getAllPeminjamanUser(){
-        $data = DB::table('tb_peminjaman')->where('kode_user','=',Auth::user()->kode_user)->get();
+        $data = new Peminjaman;
+        $aa = $data->where('kode_user','=',Auth::user()->kode_user)->orderBy('id_peminjaman','desc')->get();
         return response()->json([
-            'model' => $data
+            'model' => $aa
         ]);
     }
     public function getDetailPeminjamanUser($id_peminjaman){
@@ -56,13 +63,19 @@ class HomeController extends Controller
         ->leftJoin('tb_inventaris','tb_detail_pinjam.id_inventaris','=','tb_inventaris.id_inventaris')
         ->rightJoin('tb_peminjaman','tb_detail_pinjam.id_detail_pinjam','=','tb_peminjaman.id_peminjaman')
         ->where('id_detail_pinjam','=',$id_peminjaman,'and','tb_peminjaman.kode_user','=',Auth::user()->kode_user)
-        ->select('tb_detail_pinjam.id_detail_pinjam','tb_detail_pinjam.jumlah','tb_inventaris.nama','tb_detail_pinjam.jumlah','tb_peminjaman.tanggal_pinjam')
+        ->select('tb_detail_pinjam.id_detail_pinjam','tb_detail_pinjam.jumlah','tb_inventaris.nama','tb_detail_pinjam.jumlah','tb_peminjaman.tanggal_pinjam','tb_peminjaman.tanggal_kembali')
         ->get();
-        
+        $aa = DB::table('tb_peminjaman')->where('id_peminjaman','=',$id_peminjaman)->first();
         return response()->json([
-            'model' => $data
+            'model' => $data,'dd' =>$aa
+           
         ]);
     }
+    public function batalkanPeminjaman(Request $request){
+        $data = new Peminjaman;
+        DB::table('tb_detail_pinjam')->where('id_detail_pinjam','=',$request->id_peminjaman)->delete();
+        DB::table('tb_peminjaman')->where('id_peminjaman','=',$request->id_peminjaman)->delete();
+     }
     public function tambahPeminjaman(Request $request){
       //$dt = date("Y-m-d");
       //echo $dt;
@@ -78,6 +91,7 @@ class HomeController extends Controller
         $id = Auth::user()->kode_user;
         $dataPeminjaman->kode_user = $id;
         $dataPeminjaman->kode_peminjaman = str_random(10);
+        $dataPeminjaman->tanggal_kembali = $request->tanggalkembali;
         //$dt = date("Y-m-d");
         //$dataPeminjaman->tanggal_pinjam   = $dt;
         //$dataPeminjaman->tanggal_kembali = date("Y-m-d",strtotime("$dt +".7." day"));
@@ -98,3 +112,6 @@ class HomeController extends Controller
 
     }
 }
+
+
+// SELECT b.id_detail_pinjam ,sum(b.jumlah)    from          tb_peminjaman a, tb_detail_pinjam b          where          a.id_peminjaman         =b.id_detail_pinjam and  b.id_inventaris = '3'    and    a.status_peminjaman = 'belum dikembalikan' GROUP BY b.jumlah,b.id_detail_pinjam;

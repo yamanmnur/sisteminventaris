@@ -92,9 +92,9 @@
                 </div>
 
                 <div class="links">
-                    <a href="https://laravel.com/docs">Operator</a>
+                    <a href="{{ route('operator.login') }}">Operator</a>
                     <a href="{{ route('login') }}">User(Siswa-guru-caraka)</a>
-                    <a href="https://laravel-news.com">Admin</a>
+                    <a href="{{ route('admin.login') }}">Admin</a>
                     
                 </div>
             </div>

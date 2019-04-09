@@ -26,23 +26,50 @@
                          <shopping-cart inline-template :items="cartItems"  >
                             <div>
                                <table class="table table-cart">
+                                 <tr>
+                                   <th>
+                                     nama
+                                   </th>
+                                   <th>jumlah</th>
+                                   <th>stok</th>
+                                   <th>aksi</th>
+                                 </tr>
                                   <tr v-for="(item, index) in items" v-model="items">
                                      <td>{{item.nama}}</td>
                                      <td style="">
                                         <input v-model="item.jumlahqty" class="form-control input-qty" type="number" min='1' max='5'>
                                      </td>
+                                     <td>
+                                       {{ item.jumlah }}
+                                     </td>
                                       <td >
                                        
-                                       <button type="button" @click="removeItem(item)" class="btn btn-errorr" style="backro">hapus</button>
+                                       <button type="button" @click="removeItem(index)" class="btn btn-errorr" style="backro">hapus</button>
                                      </td>
                                   </tr>
                                    
                                   <tr v-show="items.length === 0">
-                                     <td colspan="4" class="text-center">Cart is empty</td>
+                                     <td   class="text-center" colspan="4">Cart is empty</td>
+                                  </tr>
+                                  <tr v-show="items.length > 0">
+                                    <td colspan="4">
+
+                                    <p>{{ tanggal_sekarang }}</p>
+                                    <p>kapan barang akan dikembalikan {{ tanggal_kembali }}</p>
+                                    <input  v-model="tanggal_kembali" class="form-control input-qty" type="date" >
+                                    <p>jam berapa barang akan dikembalikan {{ jam_kembali }}</p>
+                                    <input v-model="jam_kembali" type="time" class="form-control input-qty">
+                                    <span v-if="new Date(tanggal_kembali) < tanggal_sekarang">tidak</span>
+                                    <span v-else>boleh</span>
+                                    </td>
                                   </tr>
                                    <tr v-show="items.length > 0">
+                                     <td colspan="4">
+
+                                     
                                        <button @click="tambahKeDatabase()" class="btn btn-primary">pinjam</button>
                                         <button   @click="hapuSemua()" class="btn btn-primary">hapussemua</button>
+                                    </td>
                                   </tr>
                                </table>
                             </div>
@@ -125,13 +152,15 @@
                       {{ item.nama }}
                     </th>
                     <td>
-                      {{ item.jumlah }}
+                      <span v-if="item.jumlah <= 0">habis</span>
+                      <span v-else>{{ item.jumlah }}</span>
                     </td>
                     <td>
                       {{ item.kondisi }}
                     </td>
                     <td>
-                      <button @click="addToCart(item)" class="btn btn-primary">pinjam</button>
+                      <button  v-if="item.jumlah <= 0 " class="btn btn-error">habis</button>
+                      <button @click="addToCart(item)" v-else class="btn btn-primary">pinjam</button>
                      </td> 
                      <td>
                       <button @click="detailbarang(item)" class="btn btn-info">detail</button>
@@ -141,6 +170,35 @@
                 </tbody>
               </table>
             </div>
+            <div class="card-footer py-4">
+              <nav aria-label="...">
+                <ul class="pagination justify-content-end mb-0" >
+                  <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">
+                      <i class="fas fa-angle-left"></i>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                  </li>
+                  <span v-for="item in pagination2">
+                    <li class="page-item active"  @click="ambilDataPagination(item.nomor+1)" v-if="item.nomor+1 == page">
+                      <a class="page-link" >{{item.nomor+1}}</a>
+                    </li>
+                    <li class="page-item  "    @click="ambilDataPagination(item.nomor+1)" v-else>
+                      <a class="page-link"  >{{item.nomor+1}}</a>
+                    </li>
+                  </span>
+                  
+                  
+                   
+                  <li class="page-item">
+                    <a class="page-link" href="#">
+                      <i class="fas fa-angle-right"></i>
+                      <span class="sr-only">Next</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
           </div>
           
             
@@ -148,12 +206,20 @@
     </template>
 
     <script>
+    
       import axios from 'axios';
       import VueSweetalert2 from 'vue-sweetalert2';
       window.Vue = require('vue');
       Vue.use(VueSweetalert2);
       Vue.component('shopping-cart',  {
         props: ['items'],
+        data(){
+          return{
+            tanggal_sekarang : new Date(),
+            tanggal_kembali : null,
+            jam_kembali : null
+          }
+        },
 
         computed: {
                  
@@ -161,28 +227,47 @@
 
         methods: {
           hapuSemua(){
-            this.items.splice(this.items[0], 1)
-            this.items.splice(this.items[1], 1)
+            this.items.splice(this.items)
+//            this.items.splice(this.items[1], 1)
           },
-          removeItem(item) {
-            this.items.splice(item, )
+          removeItem(index) {
+            this.items.splice(index, 1)
             //this.items.splice(item, )
             //this.items.splice(index, 1)
           },
           
           tambahKeDatabase(event){
             var vm = this
-
-            axios.post('/api/tambahPeminjaman',  {items : this.items})
+            
+            var array = [];
+            for (let index = 0; index < this.items.length; index++) {
+              if(this.items[index]['jumlahqty'] > this.items[index]['jumlah']){
+                array[index] = {kondisi : 'melebihi jumlah stok'}              
+              }
+              
+             }
+            if (array.length > 0) {
+                vm.$swal('gagal , barang yang anda pinjam melebihi stok barang');              
+            } else {
+              if(new Date(vm.tanggal_kembali) < vm.tanggal_sekarang){
+                vm.$swal('gagal , tanggal kembali tidak boleh lampau');
+              }else{
+                
+              
+              axios.post('/api/tambahPeminjaman',  {items : this.items,tanggalkembali : vm.tanggal_kembali+" "+vm.jam_kembali})
             .then(function (resp){
               vm.$swal('barang berhasil dipinjam')
               vm.$router.push('/home/riwayatpeminjaman');
+              
               $('#cartModal').modal('hide')
               // vm.$("#detailmodal").modal('');
               //alert('berhasil')
             }).catch(function (resp){
                 swal('hai')
             });
+            }
+            }
+            
           }
         }
       });
@@ -202,29 +287,64 @@
                   
         data(){        
           return {
+            kondisitanggal : null,
             search : '',
             iii : [],
             cartItems : [],
             detailbarangs: [],
-            items : {}
+            items : {},
+            tersedia : null,
+                      pagination2 : {},
+          last_page : null,
+          page : 1
           }
         },
         mounted(){
-                      
-          var vm = this
+           var vm = this
           axios.get('http://localhost:8000/api/inventaris/'+this.search)
           .then(function (response){
+            
             Vue.set(vm.$data,'items',response.data.items)
             vm.$swal('data berhasil di load')
+             vm.last_page = vm.items['last_page']
+
+          var a = []
+          for(var i = 0;i < vm.last_page ;i++){
+                                 
+
+            //Vue.set(vm.$data,'pagination2',i)
+           a[i] = {nomor : i }
+          }
+           Vue.set(vm.$data,'pagination2',a)
           })
         },
         methods: {
+          ambilDataPagination(nomor){
+           
+        var vm = this;
+        axios.get('http://localhost:8000/api/inventaris/'+this.search+'?page='+nomor)
+        .then(function (response){
+          Vue.set(vm.$data,'items',response.data.items)
+          vm.page = nomor
+           
+        });
+
+      },
           ambilData(){
             var vm = this;
             axios.get('http://localhost:8000/api/inventaris/'+this.search)
             .then(function (response){
               Vue.set(vm.$data,'items',response.data.items)
-              
+               vm.last_page = vm.items['last_page']
+
+          var a = []
+          for(var i = 0;i < vm.last_page ;i++){
+                                 
+
+            //Vue.set(vm.$data,'pagination2',i)
+           a[i] = {nomor : i }
+          }
+           Vue.set(vm.$data,'pagination2',a)
             });
           },
           hapusSemua(){

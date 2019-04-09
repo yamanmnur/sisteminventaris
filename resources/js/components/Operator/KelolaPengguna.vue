@@ -34,13 +34,43 @@
                         <input type="email" id="input-email" v-model="datadiri.email" class="form-control " placeholder="jesse@example.com" name="email">
                       </div>
                     </div>
-                     <div class="col-lg-6">
+                    <div class="col-lg-6">
                       <div class="form-group">
-                        <label class="form-control-label" for="input-email">no tlp </label>
-                        <input type="text" id="input-email" v-model="datadiri.no_tlp" class="form-control " placeholder="jesse@example.com" name="email">
+                        <label class="form-control-label" for="input-email">level </label>
+                        <select name="" class="form-control " v-model="datadiri.level" id="">
+                          <option value="siswa">siswa</option>
+                          <option value="guru">guru</option>
+                          <option value="caraka">caraka</option>
+                        </select>
+                       </div>
+                    </div>
+                    <div class="col-lg-6" v-show="datadiri.level == 'siswa'">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-email">NIS </label>
+                        <input  type="text" v-model="datadiri.no_id" class="form-control " >
                       </div>
                     </div>
-                     
+                     <div class="col-lg-6" v-show="datadiri.level == 'siswa'">
+                      <div class="form-group">
+                        <label class="form-control-label"  for="input-email">Kelas </label>
+                        <select name="" class="form-control " v-model="datadiri.kelas" id="">
+                          <option value="10">10</option>
+                          <option value="11">11</option>
+                          <option value="12">12</option>
+                        </select>
+                       </div>
+                    </div>
+                    <div class="col-lg-6" v-show="datadiri.level == 'siswa'">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-email">Jurusan </label>
+                        <select name="" v-model="datadiri.jurusan" class="form-control " id="">
+                          <option value="Animasi">Animasi</option>
+                          <option value="Teknologi Komputer dan Jaringan">Teknologi Kompute dan Jaringan</option>
+                          <option value="Multimedia">Multimedia</option>
+                          <option value="Rekayasa Perangkat Lunak">Rekayasa Perangkat Lunak</option>
+                        </select>
+                       </div>
+                    </div>
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label"  >{{ judul_password }} </label>
@@ -76,8 +106,8 @@
                 <thead class="thead-light">
                   <tr>
                       <th scope="col">nama</th>
-                    <th scope="col">no tlp</th>
-                    <th scope="col">email</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">aksi</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -85,10 +115,10 @@
                     
 
                     <td>
-                        {{ item.nama }}
+                        {{ item.name }}
                     </td>
                     <td>
-                      {{ item.no_tlp }}
+                      {{ item.level }}
                     </td>
                     <td>
                       {{ item.email }}
@@ -178,10 +208,9 @@ import VueSweetalert2 from 'vue-sweetalert2';
 export default {
     data(){
         return{
-            judul_form : "tambah operator",
+            judul_form : "tambah user",
             judul_password : "password",
-            datadiri : {'kode_operator' : '',"nama" : '',"email": "","password" : '',
-            "no_tlp" : ""},
+            datadiri : {'kode_user' : '',"nama" : '',"email": "","password" : '',"kelas" : '', "jurusan" : "","level" : '',"no_id" : ""},
             error : {nama : '',kelas : ''},
             level : '',
             value : 'error',
@@ -203,12 +232,12 @@ export default {
         //   vm.$swal('data berhasil di load')www.bangringo.com
         // });  
         var vm = this;
-        axios.get('http://localhost:8000/admin/api/getalloperator/'+this.search)
+        axios.get('http://localhost:8000/operator/api/getalluser/'+this.search)
         .then(function (response){
           Vue.set(vm.$data,'model',response.data.model)
-          
+          vm.last_page = vm.model['last_page']
           vm.$swal('data berhasil di load')
-           vm.last_page = vm.model['last_page']
+           
 
           var a = []
           for(var i = 0;i < vm.last_page ;i++){
@@ -223,29 +252,31 @@ export default {
     methods : {
       bukamodal(){
         $("#cartModal").modal('show');
-        this.judul_form = "tambah operator";
+        this.judul_form = "tambah user";
         this.judul_password = "password baru";
         this.datadiri.nama = "";
         this.datadiri.email = "";
         this.datadiri.password = "";
-        
-        this.datadiri.no_tlp = "";
-        this.datadiri.kode_operator = "";
+        this.datadiri.kelas = "";
+        this.datadiri.jurusan = "";
+        this.datadiri.no_id = "";
+        this.datadiri.kode_user = "";
       },
       updateuser(item){
           $("#cartModal").modal('show');
-          this.datadiri.kode_operator = item.kode_operator;
-          this.judul_form = "update operator";
+          this.datadiri.kode_user = item.kode_user;
+          this.judul_form = "update user";
           this.judul_password = "password baru";
-          this.datadiri.nama = item.nama;
+          this.datadiri.nama = item.name;
           this.datadiri.email = item.email;
-          
-          this.datadiri.no_tlp = item.no_tlp;
+          this.datadiri.kelas = "";
+          this.datadiri.jurusan = "";
+          this.datadiri.no_id = "";
       },
       ambilDataPagination(nomor){
            
         var vm = this;
-        axios.get('http://localhost:8000/admin/api/getalloperator/'+this.search+'?page='+nomor)
+        axios.get('http://localhost:8000/operator/api/getalluser/'+this.search+'?page='+nomor)
         .then(function (response){
           Vue.set(vm.$data,'model',response.data.model)
           vm.page = nomor
@@ -255,7 +286,7 @@ export default {
       },
       ambilData(){
         var vm = this;
-        axios.get('http://localhost:8000/admin/api/getalloperator/'+this.search)
+        axios.get('http://localhost:8000/operator/api/getalluser/'+this.search)
         .then(function (response){
           Vue.set(vm.$data,'model',response.data.model)   
           
@@ -267,28 +298,28 @@ export default {
                                  
 
             //Vue.set(vm.$data,'pagination2',i)
-           a[i] = {nomor : i ,href : 'http://localhost:8000/admin/api/getalloperator?page='+i}
+           a[i] = {nomor : i ,href : 'http://localhost:8000/operator/api/getalluser?page='+i}
           }
            Vue.set(vm.$data,'pagination2',a)
         });
       },
       ambilDataLangsung(){
         var vm = this;
-        axios.get('http://localhost:8000/admin/api/getalloperator')
+        axios.get('http://localhost:8000/operator/api/getalluser')
         .then(function (response){
           Vue.set(vm.$data,'model',response.data.model)   
         });
       },
         tambahUser(event){
           var vm = this
-          if (this.judul_form == 'update operator') {
-            if (this.datadiri.nama == "" || this.datadiri.email == "" || this.datadiri.password == "" || this.datadiri.no_tlp == "") {
+          if (this.judul_form == 'update user') {
+            if (this.datadiri.nama == "" || this.datadiri.email == "" || this.datadiri.password == "") {
               vm.$swal('update user gagal, tidak boleh ada data yang kosong');
             } else {
               
-              axios.post('/admin/api/editoperator',   { datadiri : this.datadiri})
+              axios.post('/operator/api/edituser',   { datadiri : this.datadiri})
             .then(function (resp){
-              vm.$swal('operator berhasil diupdate')
+              vm.$swal('user berhasil diupdate')
               //vm.$router.push('/home/riwayatpeminjaman');
               vm.ambilDataLangsung()
               $('#cartModal').modal('hide')
@@ -302,14 +333,14 @@ export default {
                 
           } else {
             
-            if (this.datadiri.nama == "" || this.datadiri.email == "" || this.datadiri.password == "" || this.datadiri.no_tlp == "") {
+            if (this.datadiri.nama == "" || this.datadiri.email == "" || this.datadiri.password == "") {
               vm.$swal("data diri tidak boleh kosong");
             } else {
               
             
             
             
-            axios.post('/admin/api/tambahoperator',   { datadiri : this.datadiri})
+            axios.post('/operator/api/tambahuser',   { datadiri : this.datadiri})
             .then(function (resp){
               vm.$swal('user berhasil ditambahkan')
               //vm.$router.push('/home/riwayatpeminjaman');

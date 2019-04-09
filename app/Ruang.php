@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use DB;
+
 
 //menggunakan softdelete
 //use Illuminate\Database\Eloquent\Model;
@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Inventaris extends Model
+class Ruang extends Model
 {
     use Notifiable;
 
@@ -24,14 +24,12 @@ class Inventaris extends Model
      */
 
     use SoftDeletes;
-    protected $dates = ['deleted_at']; 
-
-    protected $table = 'tb_inventaris';
-     protected $primaryKey = 'id_inventaris';
+    protected $dates = ['delete_at'];
+    protected $table = 'ruang';
+    public $timestamps = false;
+    protected $primaryKey = 'id_ruang';
     protected $fillable = [
-        'nama','kondisi','keterangan','jumlah',
-        'jumlah_asli',
-         'kode_jenis','kode_ruang'
+        'nama_ruang','kode_ruang','keterangan_ruang',
         //,'foto','alamat'
     ];
 
@@ -40,12 +38,7 @@ class Inventaris extends Model
      *
      * @var array
      */
-    
-    public function getAllInventaris(){
-        $data = DB::table('tb_inventaris')->get();
-
-        return $data;
-    }
+   
     
     
 }
